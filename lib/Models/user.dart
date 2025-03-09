@@ -1,23 +1,30 @@
 import 'package:json_annotation/json_annotation.dart';
+part 'user.g.dart';
 
-part 'Auth_User.g.dart';
+// cmd flutter pub run build_runner build --delete-conflicting-outputs
 
 @JsonSerializable()
 class UserModel {
   final String? username;
   final String email;
-  final String? fullName;
+  final String? fullname;
   final String? refreshToken;
   final String? accessToken;
-  final String password;
+  final String? password;
+  final String? otp;
+  final String? newPassword;
+  final String? confirmPassword;
 
   UserModel({
     this.username,
     required this.email,
-    this.fullName,
+    this.fullname,
     this.refreshToken,
     this.accessToken,
-    required this.password,
+    this.password,
+    this.otp,
+    this.newPassword,
+    this.confirmPassword
   });
 
   /// Factory constructor for creating a new `UserModel` instance from a JSON map.

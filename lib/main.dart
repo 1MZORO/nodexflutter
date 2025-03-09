@@ -1,47 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:nodexflutter/Provider_Global/BottomProvider.dart';
+import 'package:nodexflutter/Screens/LoginScreen.dart';
+import 'package:nodexflutter/Utils/ThemeDataClass.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+import 'LocalStorage/SecureStorage.dart';
+
+void main() async {
+  // await dotenv.load(fileName: ".env");
+  WidgetsFlutterBinding.ensureInitialized();
+  // SecureStorage storage = SecureStorage();
+  //
+  // await storage.saveData('testKey', 'Hello Secure Storage');
+  // String? testValue = await storage.readData('testKey');
+  //
+  // print('Secure Storage Test Value: $testValue');
+  runApp(
+      MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => BottomProvider())
+      ],child: MyApp(),));
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  String message = "Fetching...";
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    final url = Uri.parse("http://localhost:3000/");
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      setState(() {
-        message = data["message"];
-      });
-    } else {
-      setState(() {
-        message = "Failed to load data";
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: clotTheme,
       home: Scaffold(
-        appBar: AppBar(title: Text("Flutter & Node.js")),
-        body: Center(child: Text(message)),
+        body: LoginScreen(),
       ),
     );
   }
